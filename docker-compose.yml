@@ -1,0 +1,31 @@
+version: '3.3'
+services: 
+  node_app:
+    build: 
+      context: .
+    ports:
+      - 4000:4000
+    command: npm start
+    networks: 
+      - monitoring
+    
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports: 
+      - 9090:9090
+    volumes: 
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks: 
+      - monitoring
+      
+  grafana:
+    image: grafana/grafana:6.5.0
+    ports: 
+      - 3000:3000
+    networks: 
+      - monitoring
+
+networks: 
+  monitoring: 
+
